@@ -8,22 +8,23 @@ steps:
   - git clone https://github.com/jythontools/jython
 
 - name: build-jython
+# - name: build-jython-dev
   image: arm32v7/openjdk:7
   commands:
   - apt update
   - apt -y install ant
   - cd jython
-  - ant all-jars
-  #- ant developer-build
+  - ant jar-standalone
+  # - ant developer-build
   - ls -la dist/
 
-# - name: test-jython
+# - name: build-jython-jar-standalone
 #   image: arm32v7/openjdk:7
 #   commands:
 #   - apt update
-#   - apt -y install ant hg
+#   - apt -y install ant
 #   - cd jython
-#   - ant all-jars
+#   - ant 
 #   - ls -laR ./dist
 
 # - name: publish-jython
@@ -34,11 +35,6 @@ steps:
 #       - dist/*
 #       - bin/binary.exe
 #    checksum:
-#       - md5
-#       - sha1
-#       - sha256
 #       - sha512
-#       - adler32
-#       - crc32
 #   when:
 #     event: tag
