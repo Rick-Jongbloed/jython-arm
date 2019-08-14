@@ -14,7 +14,7 @@ steps:
   - apt update
   - apt -y install ant
   - cd jython
-  - ant installer
+  - ant jar-standalone
   - ls -laR ./dist
 - name: publish-jython-release
   image: plugins/github-release
