@@ -1,57 +1,22 @@
 kind: pipeline
 name: jython-arm
 
+# I should upgrade this to publish all jars, once the timeout has been set to two hours
+
 steps:
 - name: clone-jython
   image: drone/git
   commands:
   - git clone https://github.com/jythontools/jython
-
-# - name: build-jython-prepare
-#   image: arm32v7/openjdk:7
-#   commands:
-#   - apt update
-#   - apt -y install ant
-#   - cd jython
-#   - ant prepare
-
-- name: build-jython-jar-standalone
+- name: build-jython-standalone
   image: arm32v7/openjdk:7
   commands:
   - apt update
   - apt -y install ant
   - cd jython
-  - ant jar-standalone
+  - ant installer
   - ls -laR ./dist
-
-# - name: build-jython-javadoc
-#   image: arm32v7/openjdk:7
-#   commands:
-#   - apt update
-#   - apt -y install ant
-#   - cd jython
-#   - ant javadoc
-#   - ls -laR ./dist
-
-# - name: build-jython-installer
-#   image: arm32v7/openjdk:7
-#   commands:
-#   - apt update
-#   - apt -y install ant
-#   - cd jython
-#   - ant installer
-#   - ls -laR ./dist
-
-# - name: build-jython-all-jars
-#   image: arm32v7/openjdk:7
-#   commands:
-#   - apt update
-#   - apt -y install ant
-#   - cd jython
-#   - ant all-jars
-#   - ls -laR ./dist
-
-- name: publish-jython
+- name: publish-jython-release
   image: plugins/github-release
   settings:
     api_key: 53f03420ac6224c4946fd44b50135c3b46322786
@@ -60,5 +25,5 @@ steps:
     checksum:
     - sha512
     title: Jython-2.7.2a.${DRONE_COMMIT_SHA}
-  when:
-    event: tag
+  # when:
+  #   event: tag
