@@ -7,11 +7,15 @@ steps:
   commands:
   - git clone https://github.com/jythontools/jython
 
-steps:
 - name: build-jython
   image: arm32v7/openjdk:7
   commands:
   - apt update
   - apt -y install ant
+  - cd jython
   - ant developer-build
-  
+
+- name: release-jython
+  image: drone-plugins/drone-github-release
+  commands:
+  - ls
