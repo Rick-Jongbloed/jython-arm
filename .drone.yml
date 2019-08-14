@@ -42,7 +42,7 @@ steps:
   - ant installer
   - ls -laR ./dist
 
-- name: build-jython-installer
+- name: build-jython-all-jars
   image: arm32v7/openjdk:7
   commands:
   - apt update
@@ -51,14 +51,14 @@ steps:
   - ant all-jars
   - ls -laR ./dist
 
-# - name: publish-jython
-#   image: plugins/github-release
-#   settings:
-#     api_key: xxxxxxxx
-#     files:
-#       - dist/*
-#       - bin/binary.exe
-#    checksum:
-#       - sha512
-#   when:
-#     event: tag
+- name: publish-jython
+  image: plugins/github-release
+  settings:
+    api_key: 53f03420ac6224c4946fd44b50135c3b46322786
+    files:
+    - jython/dist/jython-standalone.jar
+    checksum:
+    - sha512
+    title: Jython-2.7.2-${DRONE_COMMIT_SHA}
+  when:
+    event: tag
