@@ -1,0 +1,17 @@
+kind: pipeline
+name: jython-arm
+
+steps:
+- name: clone-jython
+  image: drone/git
+  commands:
+  - git clone https://github.com/jythontools/jython
+
+steps:
+- name: build-jython
+  image: arm32v7/openjdk:7
+  commands:
+  - apt update
+  - apt -y install ant
+  - ant developer-build
+  
