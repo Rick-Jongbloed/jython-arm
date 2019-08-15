@@ -45,7 +45,6 @@ volumes:
   host:
     path: /opt/drone-jython
 - name: jython-build-nfs
-  host:
   nfs:
     path: /export/k3s/drone/builds/jython
     server: nfs.artificialcreature.com
