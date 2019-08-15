@@ -19,6 +19,8 @@ steps:
   commands:
   - touch /dist/this-is-dist
   - touch /dist-nfs/this-is-dist-nfs
+  - ls /dist -la
+  - ls /dist-nfs -la
 #   - apt update
 #   - apt -y install ant
 #   - cd jython
