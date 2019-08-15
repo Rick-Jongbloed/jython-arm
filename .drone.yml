@@ -13,7 +13,7 @@ steps:
   image: arm32v7/openjdk:7
   volumes:
   - name: jython-build
-    path: /drone/jython/dist
+    path: /drone/src/jython/dist
   commands:
   - apt update
   - apt -y install ant
