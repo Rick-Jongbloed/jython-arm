@@ -8,14 +8,18 @@ steps:
   image: drone/git
   commands:
   - git clone https://github.com/jythontools/jython
+
 - name: build-jython-standalone
   image: arm32v7/openjdk:7
+  volumes:
+  - name: jython-build
+    path: /drone/jython/dist
   commands:
   - apt update
   - apt -y install ant
   - cd jython
-  - ant jar-standalone
-  - ls -laR ./dist
+  - ant all-jars
+
 - name: publish-jython-release
   image: plugins/github-release
   settings:
@@ -25,5 +29,11 @@ steps:
     checksum:
     - sha512
     title: Jython-2.7.2a.${DRONE_COMMIT_SHA}
-  # when:
-  #   event: tag
+  when:
+    event: tag
+
+volumes:
+- name: jython-build
+  nfs:
+    path: /export/k3s/drone/builds/jython
+    server: nfs.artificialcreature.com
