@@ -14,29 +14,36 @@ steps:
   volumes:
   - name: jython-build
     path: /dist
+  - name: jython-build-nfs
+    path: /dist-nfs
   commands:
-  - apt update
-  - apt -y install ant
-  - cd jython
-  - ant all-jars
-  - cp dist/* /dist -R
+  - touch /dist/this-is-dist
+  - touch /dist-nfs/this-is-dist-nfs
+#   - apt update
+#   - apt -y install ant
+#   - cd jython
+#   - ant all-jars
+#   - cp dist/* /dist -R
+#   - cp dist/* /dist-nfs -R
 
-- name: publish-jython-release
-  image: plugins/github-release
-  settings:
-    api_key: 53f03420ac6224c4946fd44b50135c3b46322786
-    files:
-    - jython/dist/jython-standalone.jar
-    checksum:
-    - sha512
-    title: Jython-2.7.2a.${DRONE_COMMIT_SHA}
-  when:
-    event: tag
+# - name: publish-jython-release
+#   image: plugins/github-release
+#   settings:
+#     api_key: 53f03420ac6224c4946fd44b50135c3b46322786
+#     files:
+#     - jython/dist/jython-standalone.jar
+#     checksum:
+#     - sha512
+#     title: Jython-2.7.2a.${DRONE_COMMIT_SHA}
+#   when:
+#     event: tag
 
 volumes:
 - name: jython-build
   host:
     path: /opt/drone-jython
-  # nfs:
-  #   path: /export/k3s/drone/builds/jython
-  #   server: nfs.artificialcreature.com
+- name: jython-build-nfs
+  host:
+  nfs:
+    path: /export/k3s/drone/builds/jython
+    server: nfs.artificialcreature.com
